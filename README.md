@@ -15,8 +15,13 @@ docker run -d --name <NOME_DO_CONTAINER> -e POSTGRES_PASSWORD=<SENHA_DO_BANCO> -
 ```
 ### Variaveis de ambiênte
 **SECRET_KEY** Secret key do Django
+
 **DB_NAME** Nome do banco
+
 **DB_USER** usuário do banco
+
 **DB_PASSWORD** Senha do banco
+
 **HOST** Servidor
+
 **PORT** Porta
