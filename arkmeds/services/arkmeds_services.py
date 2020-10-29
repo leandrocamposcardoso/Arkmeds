@@ -2,7 +2,6 @@ import requests
 
 
 class Services:
-    error = []
     BASE_ENDPOINT = 'https://desenvolvimento.arkmeds.com'
 
     def __init__(self, user, password):
@@ -12,29 +11,46 @@ class Services:
             "email": self.user,
             "password": self.password
         }
-        self.token = self.make_request(
-            f'{self.BASE_ENDPOINT}/rest-auth/token-auth/',
-            'POST',
-            data=self.payload)
+        self.token = self._get_token()
+
+    def _get_token(self):
+        try:
+            request.request(
+                f'{self.BASE_ENDPOINT}/rest-auth/token-auth/',
+                'POST',
+                data=self.payload)
+            #return token
+            return token
+        except Exception as e:
+            return None
 
     def _make_requests(self, endpoint, method, data=None):
+        error = False
         headers = {
             'Authorization': f'JWT {self.token}',
         }
         response = None
         try:
-            response = requests.request(
+            res = requests.request(
                 method, endpoint, headers=headers, data=data, timeout=5)
-            response.raise_for_status()
+            res.raise_for_status()
         except requests.exceptions.HTTPError as err:
-            return err
+            error = True
+            info = {'error': error, 'message': err.__str__()}
+            return error, info, res
         except requests.exceptions.ConnectionError as err:
-            return err
+            error = True
+            info = {'error': error, 'message': err.__str__()}
+            return error, info, res
         except requests.exceptions.Timeout as err:
-            return err
+            error = True
+            info = {'error': error, 'message': err.__str__()}
+            return error, info, res
         except requests.exceptions.RequestException as err:
-            return err
-        return response
+            error = True
+            info = {'error': error, 'message': err.__str__()}
+            return error, info, res
+         return False, {'error': error, 'message': 'Success'}, res
 
     def criar_chamado(self,
                       equipamento,
@@ -53,25 +69,16 @@ class Services:
             "data_criacao": data_criacao,
             "id_tipo_ordem_servico": id_tipo_ordem_servico
         }
-        return self._make_requests(f'{self.BASE_ENDPOINT}/api/v1/chamado/novo/',
-                                   'POST',
-                                   data=data).json()
+        error, info, res = self._make_requests(f'{self.BASE_ENDPOINT}/api/v1/chamado/novo/','POST', data=data)
 
     def listar_empresas(self):
-        return self._make_requests(
-            f'{self.BASE_ENDPOINT}/api/v2/empresa/', 'GET').json()
+        error, info, res =  self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/empresa/', 'GET')
 
     def empresa_detalhada(self, id):
-        return self._make_requests(
-            f'{self.BASE_ENDPOINT}/api/v2/company/{id}/',
-            'GET').json()
+        error, info, res =  self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/company/{id}/', 'GET')
 
     def equipamentos_por_empresas(self, id):
-        return self._make_requests(
-            f'{self.BASE_ENDPOINT}/api/v2/equipamentos_paginados/?empresa_id={id}',
-            'GET').json()
+        error, info, res =  self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/equipamentos_paginados/?empresa_id={id}', 'GET')
 
     def chamado_por_equipamento(self, id):
-        return self._make_requests(
-            f'{self.BASE_ENDPOINT}/api/v2/chamado/?equipamento_id={id}',
-            'GET').json()
+        error, info, res = self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/chamado/?equipamento_id={id}', 'GET')
