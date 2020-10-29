@@ -13,7 +13,7 @@ Levando em conta que já tenha o docker instalado, basta rodar o comando.
 docker pull postgres
 docker run -d --name <NOME_DO_CONTAINER> -e POSTGRES_PASSWORD=<SENHA_DO_BANCO> -p 5431:5432 postgres
 ```
-### Variaveis de ambiênte
+### Variáveis de ambiênte
 **SECRET_KEY** Secret key do Django
 
 **DB_NAME** Nome do banco

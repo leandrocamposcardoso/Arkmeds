@@ -15,12 +15,10 @@ class Services:
 
     def _get_token(self):
         try:
-            request.request(
+            return request.request(
                 f'{self.BASE_ENDPOINT}/rest-auth/token-auth/',
                 'POST',
-                data=self.payload)
-            #return token
-            return token
+                data=self.payload).json()['token']
         except Exception as e:
             return None
 
@@ -69,16 +67,16 @@ class Services:
             "data_criacao": data_criacao,
             "id_tipo_ordem_servico": id_tipo_ordem_servico
         }
-        error, info, res = self._make_requests(f'{self.BASE_ENDPOINT}/api/v1/chamado/novo/','POST', data=data)
+        return self._make_requests(f'{self.BASE_ENDPOINT}/api/v1/chamado/novo/','POST', data=data)
 
     def listar_empresas(self):
-        error, info, res =  self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/empresa/', 'GET')
+        return self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/empresa/', 'GET')
 
     def empresa_detalhada(self, id):
-        error, info, res =  self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/company/{id}/', 'GET')
+        return  self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/company/{id}/', 'GET')
 
     def equipamentos_por_empresas(self, id):
-        error, info, res =  self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/equipamentos_paginados/?empresa_id={id}', 'GET')
+        return self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/equipamentos_paginados/?empresa_id={id}', 'GET')
 
     def chamado_por_equipamento(self, id):
-        error, info, res = self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/chamado/?equipamento_id={id}', 'GET')
+        return self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/chamado/?equipamento_id={id}', 'GET')
