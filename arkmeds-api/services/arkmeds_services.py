@@ -74,8 +74,8 @@ class Services:
     def empresa_detalhada(self, id):
         return self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/company/{id}/', 'GET')
 
-    def equipamentos_por_empresas(self, id):
-        return self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/equipamentos_paginados/?empresa_id={id}', 'GET')
+    def equipamentos_por_empresas(self, id, page=1):
+        return self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/equipamentos_paginados/?empresa_id={id}&page={page}', 'GET')
 
-    def chamado_por_equipamento(self, id):
-        return self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/chamado/?equipamento_id={id}', 'GET')
+    def chamado_por_equipamento(self, id, page=1):
+        return self._make_requests(f'{self.BASE_ENDPOINT}/api/v2/chamado/?equipamento_id={id}&page={page}', 'GET')

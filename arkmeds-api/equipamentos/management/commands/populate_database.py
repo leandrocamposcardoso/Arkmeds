@@ -1,13 +1,43 @@
 import os
 
 from django.core.management.base import BaseCommand, CommandError
-from equipamentos.models import (Chamado, Detalhe, Empresa, Equipamento,
+from equipamentos.models import (Detalhe, Empresa, Equipamento,
                                  TipoDetalhe, Proprietario, TipoEquipamento)
 from services.arkmeds_services import Services
 
 
 class Command(BaseCommand):
     help = 'Inserting data from API to Postgres database'
+
+    def map_company_ids(self, companies=[]):
+        return [company['id'] for company in companies]
+
+    def fetch_equipamentos(self, services, company_id, page=1):
+        error, info, res = services.equipamentos_por_empresas(id=id)
+        if error:
+            raise CommandError(info)
+        response = res.json()
+        has_next = response['next'] != 'null'
+        return has_next, response['results']
+
+    def equipments(self, service, company_id):
+        equipamentos = []
+        page = 1
+        has_next, results = self.fetch_equipamentos(service, company_id, page)
+        equipamentos.append[results]
+        while has_next:
+            page += 1
+            has_next, results = self.fetch_equipamentos(service, company_id, page)
+            equipamentos.append(results)
+        return equipamentos
+
+    def equipments_from_companies(self, service, companies):
+        for id in self.map_company_ids(companies):
+
+
+
+
+
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('[+]initializing service'))
@@ -76,13 +106,13 @@ class Command(BaseCommand):
             equipamentos = res.json()['results']
             self.stdout.write(self.style.SUCCESS('[+]Importing equipments'))
             for equipamento in equipamentos:
-                self.stdout.write(self.style.SUCCESS(f'[+]Creating owner'))
+                self.stdout.write(self.style.SUCCESS('[+]Creating owner'))
                 proprietario = Proprietario.objects.get_or_create(
                     id=equipamento['proprietario']['id'],
                     nome=equipamento['proprietario']['nome'],
                     apelido=equipamento['proprietario']['apelido'],
                 )[0]
-                self.stdout.write(self.style.SUCCESS(f'[+]Creating type'))
+                self.stdout.write(self.style.SUCCESS('[+]Creating type'))
                 tipo = TipoEquipamento.objects.get_or_create(
                     id=equipamento['tipo']['id'],
                     descricao=equipamento['tipo']['descricao'],
