@@ -3,24 +3,7 @@ from django.db import models
 
 class Empresa(models.Model):
     id = models.PositiveIntegerField(primary_key=True, editable=False)
-    nome = models.CharField(max_length=100)
-    apelido = models.CharField(max_length=100)
-
-
-class Detalhe(models.Model):
-    id = models.PositiveIntegerField(primary_key=True, editable=False)
-    empresa = models.ForeignKey(
-        'Empresa',
-        models.PROTECT,
-        blank=True,
-        null=True,
-        related_name='+')
-    tipo = models.ForeignKey(
-        'TipoDetalhe',
-        models.PROTECT,
-        blank=True,
-        null=True,
-    )
+    tipo = models.PositiveIntegerField(null=True)
     nome = models.CharField(max_length=100, null=True)
     nome_fantasia = models.CharField(max_length=100, null=True)
     superior = models.CharField(max_length=100, null=True)
@@ -40,9 +23,8 @@ class Detalhe(models.Model):
     cidade = models.CharField(max_length=100, null=True)
     estado = models.CharField(max_length=2, null=True)
 
-
-class TipoDetalhe(models.Model):
-    id = models.PositiveIntegerField(primary_key=True, editable=False)
+    def __str__(self):
+        return self.nome
 
 
 class Equipamento(models.Model):
@@ -66,81 +48,67 @@ class Equipamento(models.Model):
     )
     qr_code = models.IntegerField()
 
+    def __str__(self):
+        return self.modelo
+
 
 class Proprietario(models.Model):
     id = models.PositiveIntegerField(primary_key=True, editable=False)
     nome = models.CharField(max_length=100)
     apelido = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.nome
+
 
 class TipoEquipamento(models.Model):
     id = models.PositiveIntegerField(primary_key=True, editable=False)
     descricao = models.TextField(max_length=500)
 
+    def __str__(self):
+        return self.descricao
 
-class Chamado(models.Model):
+
+class ResponsavelTecnico(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, editable=False)
+    has_avatar = models.BooleanField(default=False)
+    nome = models.CharField(max_length=100, null=True)
+    email = models.CharField(max_length=100, null=True)
+    has_resp_tecnico = models.BooleanField(default=False)
+    avatar = models.CharField(max_length=100, null=True)
+
+    def __str__(self):
+        return self.nome
+
+
+class ChamadoEquipamento(models.Model):
+    id = models.PositiveIntegerField(primary_key=True, editable=False)
+    chamados = models.IntegerField(null=True)
+    cor_prioridade = models.CharField(max_length=100, null=True)
+    prioridade = models.PositiveSmallIntegerField(null=True)
+    get_prioridade = models.CharField(max_length=100, null=True)
+    numero = models.IntegerField()
+    get_solicitante = models.CharField(max_length=100, null=True)
+    get_equipamento_servico = models.CharField(max_length=100, null=True)
+    get_criticidde = models.CharField(max_length=100)
+    tempo = models.JSONField(null=True)
+    tempo_fechamento = models.JSONField(null=True)
+    responsavel_str = models.CharField(max_length=100, null=True)
+    get_resp_tecnico = models.ForeignKey(
+        'ResponsavelTecnico',
+        models.PROTECT,
+        blank=True,
+        null=True,
+    )
+    problema_str = models.CharField(max_length=100, null=True)
+    chamado_arquivado = models.BooleanField(default=False)
+    estado = models.PositiveIntegerField(editable=False, null=True)
     equipamento = models.ForeignKey(
         'Equipamento',
         models.PROTECT,
         blank=True,
         null=True,
     )
-    solicitante = models.ForeignKey(
-        'Solicitante',
-        models.PROTECT,
-        blank=True,
-        null=True,
-    )
-    tipo_servico = models.ForeignKey(
-        'TipoServico',
-        models.PROTECT,
-        blank=True,
-        null=True,
-    )
-    problema = models.ForeignKey(
-        'Problema',
-        models.PROTECT,
-        blank=True,
-        null=True,
-    )
-    observacoes = models.TextField()
-    data_criacao = models.DateTimeField()
-    id_tipo_ordem_servico = models.ForeignKey(
-        'TipoOrdemServico',
-        models.PROTECT,
-        blank=True,
-        null=True,
-    )
 
-
-class Solicitante(models.Model):
-    id = models.PositiveIntegerField(primary_key=True, editable=False)
-
-
-class TipoServico(models.Model):
-    id = models.PositiveIntegerField(primary_key=True, editable=False)
-
-
-class Problema(models.Model):
-    id = models.PositiveIntegerField(primary_key=True, editable=False)
-
-
-class TipoOrdemServico(models.Model):
-    id = models.PositiveIntegerField(primary_key=True, editable=False)
-
-
-class ChamadoEquipamento(models.Model):
-    chamado = models.ForeignKey(
-        'Chamado',
-        models.PROTECT,
-        blank=True,
-        null=True,
-    )
-    cor_prioridade = models.CharField(max_length=100)
-    prioridade = models.PositiveSmallIntegerField()
-    get_prioridade = models.CharField(max_length=100)
-    numero = models.IntegerField()
-    get_solicitante = models.CharField(max_length=100)
-    get_equipamento_servico = models.CharField(max_length=100)
-    get_criticidde = models.CharField(max_length=100)
-    get_criticidde = models.CharField(max_length=100)
+    def __str__(self):
+        return str(self.chamados)
