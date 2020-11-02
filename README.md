@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 # Arkmeds
 
 
@@ -33,10 +33,15 @@ docker run -d --name <NOME_DO_CONTAINER> -e POSTGRES_PASSWORD=<SENHA_DO_BANCO> -
 ### Variáveis de ambiênte
 
 **SECRET_KEY** Secret key do Django
+
 **DB_NAME** Nome do banco
+
 **DB_USER** usuário do banco
+
 **DB_PASSWORD** Senha do banco
+
 **HOST** Servidor
+
 **PORT** Porta
 
 
@@ -106,16 +111,14 @@ As APIs seguem os padrões de URL do *DRF(Django Resf Framework)* :
 
 **HOST(localhost:8000)/equipamentos**
 
-| Endpoint |Metodos |
-|--|--|--|
-|/empresa|get post put delete|
-|/equipamento|get post put delete|
-|/proprietario|get post put delete|
-|/tipo_equipamento|get post put delete|
-|/responsavel_tecnico|get post put delete|
-|/chamado_equipamento|get post put delete|
-|/equipamento/num_tickets|get |
-|/proprietario/num_equipments|get|
+1. /empresa - [get post put delete]
+2. /equipamento - [get post put delete]
+3. /proprietario - [get post put delete]
+4. /tipo_equipamento - [get post put delete]
+5. /responsavel_tecnico - [get post put delete]
+6. /chamado_equipamentoget - [post put delete]
+7. /equipamento/num_tickets - [get ]
+8. /proprietario/num_equipments - [get ]
 
 
 # Frontend React
