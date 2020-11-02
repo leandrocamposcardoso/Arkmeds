@@ -205,13 +205,18 @@ class Command(BaseCommand):
         return equipment_type
 
     def get_or_create_resp_tecnico(self, ticket):
-        id = ticket['get_resp_tecnico']['id']
-        has_avatar = ticket['get_resp_tecnico']['has_avatar']
-        nome = ticket['get_resp_tecnico']['nome']
-        email = ticket['get_resp_tecnico']['email']
         has_resp_tecnico = ticket['get_resp_tecnico']['has_resp_tecnico']
-        avatar = ticket['get_resp_tecnico']['avatar']
-        get_resp_tecnico, created = ResponsavelTecnico.objects.get_or_create(id=id, defaults={'id': id, 'nome': nome, 'email': email, 'has_avatar': has_avatar, 'has_resp_tecnico': has_resp_tecnico, 'avatar': avatar})
+        if has_resp_tecnico:
+            id = ticket['get_resp_tecnico']['id']
+            has_avatar = ticket['get_resp_tecnico']['has_avatar']
+            nome = ticket['get_resp_tecnico']['nome']
+            email = ticket['get_resp_tecnico']['email']
+            has_resp_tecnico = has_resp_tecnico
+            avatar = ticket['get_resp_tecnico']['avatar']
+            get_resp_tecnico, created = ResponsavelTecnico.objects.get_or_create(id=id, defaults={'id': id, 'nome': nome, 'email': email, 'has_avatar': has_avatar, 'has_resp_tecnico': has_resp_tecnico, 'avatar': avatar})
+        else:
+            get_resp_tecnico = None
+
         return get_resp_tecnico
 
     def save_equipments(self, equipments):
@@ -245,7 +250,7 @@ class Command(BaseCommand):
         Equipamento.objects.bulk_create(obj_equipments)
 
     def get_tickets_from_all_equipments(self, equipments):
-        self.stdout.write(self.style.SUCCESS('[+]Importing equipments'))
+        self.stdout.write(self.style.SUCCESS('[+]Importing tickets'))
         all_tickets = []
         already_imported = 0
         for equipment_id in self.map_equipments_ids(equipments):
@@ -278,16 +283,16 @@ class Command(BaseCommand):
         if already_imported > 0:
             self.stdout.write(self.style.SUCCESS(f'{already_imported} tickets already imported'))
         new_imported = len(all_tickets)
+        ChamadoEquipamento.objects.bulk_create(all_tickets)
         self.stdout.write(self.style.SUCCESS(f'{new_imported} new tickets imported'))
 
-        ChamadoEquipamento.objects.bulk_create(all_tickets)
 
     def handle(self, *args, **options):
         # Part 1
-        companies = self.fetch_companies(max_number=1)
+        companies = self.fetch_companies(max_number=20)
         detailed_companies = self.companies_details_excluding_type_5(companies)
         equipments = self.equipments_from_companies(detailed_companies)
-        self.open_ticket_for_equipments(equipments)
+        # self.open_ticket_for_equipments(equipments)
         # Part2
         self.save_companies(detailed_companies)
         self.save_equipments(equipments)

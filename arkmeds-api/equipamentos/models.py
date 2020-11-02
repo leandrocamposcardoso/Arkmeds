@@ -24,7 +24,7 @@ class Empresa(models.Model):
     estado = models.CharField(max_length=2, null=True)
 
     def __str__(self):
-        return self.nome
+        return f'{self.nome} - {self.cnpj}'
 
 
 class Equipamento(models.Model):
@@ -49,7 +49,7 @@ class Equipamento(models.Model):
     qr_code = models.IntegerField()
 
     def __str__(self):
-        return self.modelo
+        return f'{self.fabricante}-{self.modelo}'
 
 
 class Proprietario(models.Model):
@@ -111,4 +111,4 @@ class ChamadoEquipamento(models.Model):
     )
 
     def __str__(self):
-        return str(self.chamados)
+        return f'{str(self.chamados)} - {self.responsavel_str} - {self.problema_str}'
