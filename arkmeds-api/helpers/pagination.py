@@ -10,6 +10,7 @@ class BasePagination(PageNumberPagination):
     def get_paginated_response(self, data):
         return Response(
             {
+                'per_page': self.page_size,
                 'next': self.get_next_link(),
                 'previous': self.get_previous_link(),
                 'count': self.page.paginator.count,

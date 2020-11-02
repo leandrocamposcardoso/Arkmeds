@@ -11,7 +11,7 @@ from .serializers import (ChamadoEquipamentoSerializer, EmpresaSerializer,
                           EquipamentoSerializer, ProprietarioSerializer,
                           ResposavelTecnicoSerializer,
                           TipoEquipamentoSerializer)
-from helpers.pagination import BigPagination
+from helpers.pagination import BasePagination
 
 
 class EmpresaView(viewsets.ModelViewSet):
@@ -79,6 +79,6 @@ class ResponsavelTecnicoView(viewsets.ModelViewSet):
 
 
 class ChamadoEquipamentoView(viewsets.ModelViewSet):
-    pagination_class = BigPagination
+    pagination_class = BasePagination
     serializer_class = ChamadoEquipamentoSerializer
     queryset = ChamadoEquipamento.objects.all()

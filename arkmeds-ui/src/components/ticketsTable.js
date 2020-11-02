@@ -9,13 +9,14 @@ export const TicketsTable = ({ }) => {
     const [page, setPage] = useState(1);
     const [equipments, setEquipments] = useState([]);
     const [totalSize, setTotalSize] = useState(0);
-    const [sizePerPage, setSizePerPage] = useState(100);
+    const [sizePerPage, setSizePerPage] = useState(10);
     const [fetching, setFetching] = useState(true);
 
     const handleFetch = async(page) => {
       fetchAllTickets(page)
         .then((data) => {
           setTotalSize(data.count)
+          setSizePerPage(data.per_page)
           setEquipments(
             data.results.map(element => (
             {
@@ -47,7 +48,7 @@ export const TicketsTable = ({ }) => {
 
     const pagination = paginationFactory({
         page,
-        totalPages: 3,
+        totalPages: 5,
         setTotalPages: 100,
         sizePerPage,
         lastPageText: '>>',
@@ -56,20 +57,19 @@ export const TicketsTable = ({ }) => {
         prePageText: '<',
         showTotal: true,
         totalSize,
-        sizePerPageList: [ {text: '100', value: 100}],
+        sizePerPageList: [ {text: sizePerPage, value: sizePerPage}],
         onPageChange: function (page) {
             setPage(page)
         },
     });
 
-    const handleTableChange = (type, { filters, sortField, sortOrder, cellEdit }) => {
-    const currentIndex = (page - 1) * sizePerPage;
+    const mystyle = {
+      marginTop: "20px"
 
-  }
-
+    };
 
     return (
-      <div>
+      <div style={mystyle}>
         {fetching ?
           (<Spinner animation="border" />)
           :
@@ -81,7 +81,7 @@ export const TicketsTable = ({ }) => {
               columns={columns}
               defaultSorted={defaultSorted}
               pagination={pagination}
-              onTableChange={handleTableChange}
+              onTableChange={()=>{}}
           />)
         }
       </div>

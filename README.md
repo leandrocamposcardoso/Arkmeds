@@ -67,7 +67,7 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
-**Pronto! Agora o backend esta pronto para rodar!**
+**Pronto! Agora o backend está pronto para rodar!**
 
 
 ## Execução do projeto
@@ -127,13 +127,12 @@ As APIs seguem os padrões de URL do *DRF(Django Resf Framework)* :
 
 # Frontend React
 **Primeiramente me desculpe pelo layout! Mas imagino que esse não seja o foco do teste.**
-O
-ront-end foi feito em React, consumindo as APIs do Django
+O front-end foi feito em React, consumindo as APIs do Django
 
 ## Url da API
 A url da api pode ser definida com a variável de ambiente **REACT_APP_API_HOST** mas já possui o valor padrão em **localhost** na porta **8080**.
 
-## Configurando o Front-end
+## Configurando o front-end
 Para configurar o ambiente corretamente os comandos abaixo devem ser executados dentro da pasta **arkmeds-ui**.
 
 ### Instalando
