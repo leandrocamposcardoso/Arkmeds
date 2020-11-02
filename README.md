@@ -3,7 +3,7 @@
 
 
 
-##Teste técnico Lenadro de Campos Cardoso
+## Teste técnico Leandro de Campos Cardoso
 
 
 
@@ -19,7 +19,7 @@ Projeto desenvolvido em _Python 3.8.5_ utilizando o framework _Django 3.1_ + DRF
 ### Postgres Docker
 Uma forma fácil de configurar o banco é através de docker, o componente utilizado e maiores informações podem ser encontrados neste link do [DockerHub](https://hub.docker.com/_/postgres) .
 
-Levando em conta que já tenha o docker instalado em sua maquina, basta rodar o comando.
+Levando em conta que já tenha o docker instalado em sua máquina, basta rodar o comando.
 
 ```shell
 docker pull postgres
@@ -30,13 +30,13 @@ docker run -d --name <NOME_DO_CONTAINER> -e POSTGRES_PASSWORD=<SENHA_DO_BANCO> -
 
 # API Django
 
-### Variáveis de ambiênte
+### Variáveis de ambiente
 
 **SECRET_KEY** Secret key do Django
 
 **DB_NAME** Nome do banco
 
-**DB_USER** usuário do banco
+**DB_USER** Usuário do banco
 
 **DB_PASSWORD** Senha do banco
 
@@ -46,15 +46,17 @@ docker run -d --name <NOME_DO_CONTAINER> -e POSTGRES_PASSWORD=<SENHA_DO_BANCO> -
 
 
 
-**ARKMEDS_USER** Usario arkmeds
+**ARKMEDS_USER** Usuário arkmeds
+
 **ARKMEDS_PASSWORD** Senha arkmeds
 
 
-
-  ## Instalação
+## Instalação
 
 Para configurar o ambiente corretamente os comandos abaixo devem ser executados dentro da pasta **arkmeds-api** onde se encontra a API do django.
+
 ### Instalar dependências
+
 ```shell
 pip install -r requirements.txt
 ```
@@ -91,7 +93,9 @@ Para executar os testes do projeto basta rodar o comando:
 python manage.py test
 ```
 
-### Rodar dar o servidor
+### Rodar o servidor
+Para rodar o servidor basta executar o comando:
+
 
 ```shell
 python manage.py runserver
@@ -123,7 +127,8 @@ As APIs seguem os padrões de URL do *DRF(Django Resf Framework)* :
 
 # Frontend React
 **Primeiramente me desculpe pelo layout! Mas imagino que esse não seja o foco do teste.**
-O Front-end foi feito em React, consumindo as APIs do Django
+O
+ront-end foi feito em React, consumindo as APIs do Django
 
 ## Url da API
 A url da api pode ser definida com a variável de ambiente **REACT_APP_API_HOST** mas já possui o valor padrão em **localhost** na porta **8080**.
@@ -139,13 +144,13 @@ npm install
 ```
 
 ### Rodar o servidor
-Apos ter certeza que o servidor de backend esta rodando, para iniciar a aplicação react basta executar o comando:
+Após ter certeza que o servidor de backend esta rodando, para iniciar a aplicação react basta executar o comando:
 
 ```shell
 npm start
 ```
 
 
-**Pronto! Agora tempos tudo rodando!**
+**Pronto! Agora temos tudo rodando!**
 
-# Obrigado a todos pela oportunidade!
+# Obrigado a todos pela oportunidade! :sunglasses:
