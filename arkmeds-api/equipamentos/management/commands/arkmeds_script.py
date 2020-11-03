@@ -121,7 +121,7 @@ class Command(BaseCommand):
         return tickets
 
     def is_type_5(self, detailed_company):
-        return detailed_company['id'] == '5'
+        return detailed_company['tipo'] == '5'
 
     def companies_details_excluding_type_5(self, companies):
         self.stdout.write(self.style.SUCCESS(
