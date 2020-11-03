@@ -292,7 +292,7 @@ class Command(BaseCommand):
         companies = self.fetch_companies(max_number=20)
         detailed_companies = self.companies_details_excluding_type_5(companies)
         equipments = self.equipments_from_companies(detailed_companies)
-        # self.open_ticket_for_equipments(equipments)
+        self.open_ticket_for_equipments(equipments)
         # Part2
         self.save_companies(detailed_companies)
         self.save_equipments(equipments)
